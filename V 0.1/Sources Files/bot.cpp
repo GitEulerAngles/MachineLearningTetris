@@ -25,7 +25,7 @@ void trainBots(Bot(&botArr)[AMOUNT]) {
 
     std::vector <int> orderedIndex;
     for (int bot = 0; bot < AMOUNT; bot++) {
-        botArr[bot].neuralNetwork.fitness += botArr[bot].tetrisGame.score;
+        //botArr[bot].neuralNetwork.fitness += botArr[bot].tetrisGame.score;
         orderedIndex.push_back(bot);
         for (int j = 0; j < bot; j++) {
             if (botArr[orderedIndex[bot]].neuralNetwork.fitness > botArr[orderedIndex[j]].neuralNetwork.fitness) {
@@ -48,20 +48,20 @@ void trainBots(Bot(&botArr)[AMOUNT]) {
 
     int r = std::rand() % 7;
     for (int i = 0; i < AMOUNT; i++) {
-        botArr[i].tetrisGame.resetGame(r);
+        botArr[i].tetrisGame.resetGame(0);
         botArr[i].neuralNetwork.fitness = 0;
         if (i == 0)
             continue;
 
-        botArr[i].neuralNetwork.setNeuralNet(botArr[orderedIndex[0]].neuralNetwork.getNeuralNet());
-        botArr[i].neuralNetwork.trainNeuralNet(.01);
+        botArr[i].neuralNetwork.setNeuralNet(botArr[0].neuralNetwork.getNeuralNet());
+        botArr[i].neuralNetwork.trainNeuralNet(0.01f);
     }
 }
 
 void Bot::setup() {
     generateGrid();
 
-    std::vector <int> neuralNet = { 200,200,100,50 };
+    std::vector <int> neuralNet = { 200,128,128,64,32 };
 
     neuralNetwork.addToOutput(4);
     neuralNetwork.addToNeuralNet(neuralNet);
