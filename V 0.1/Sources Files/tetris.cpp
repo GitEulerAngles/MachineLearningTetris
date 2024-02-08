@@ -185,6 +185,8 @@ void Tetris::checkForRows()
 }
 
 void Tetris::addFitness(NeuralNetwork* n) {
+    float bumpiness = 0, holes = 0, rowCount = 0;
+
     // Bumpiness fitness
     std::vector <int> highest;
     for (int x = 0; x < 10; x++) {
@@ -196,12 +198,9 @@ void Tetris::addFitness(NeuralNetwork* n) {
         }
     }
 
-    float bumpiness = 0;
     for (int i = 1; i < highest.size(); i++) {
-        bumpiness += std::abs(highest[i] - highest[i - 1]);
+        bumpiness -= std::abs(highest[i] - highest[i - 1]);
     }
-
-    n->fitness -= bumpiness * 0.5;
 
     for (int y = 0; y < 4; y++) {
         bool row = true;
@@ -213,7 +212,7 @@ void Tetris::addFitness(NeuralNetwork* n) {
             int holes_amount = 0;
             for (int y_grid = y + piecePosition.y + 1; y_grid < 20; y_grid++) {
                 if (!grid[y_grid][x + piecePosition.x].empty) {
-                    n->fitness -= holes_amount * 0.5;
+                    holes -= holes_amount * 0.5;
                     y_grid = 20;
                 }
                 else {
@@ -231,13 +230,15 @@ void Tetris::addFitness(NeuralNetwork* n) {
                         rowTotal++;
                     }
                     else {
-                        n->fitness += rowTotal * rowTotal * ((y + piecePosition.y) / 19) * 1;
+                        rowCount += rowTotal * rowTotal * (y + piecePosition.y);
                         rowTotal = 0;
                     }
                 }
             }
         }
     }
+
+    n->fitness += bumpiness + (rowCount * 0.1) + holes;
 }
 
 void Tetris::layDownPiece(NeuralNetwork* n)
