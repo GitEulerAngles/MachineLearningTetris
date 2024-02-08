@@ -4,7 +4,7 @@
 #include "tetris.h"
 #include "neural_network.h"
 
-#define AMOUNT 18
+#define AMOUNT 10
 
 class Bot{
 private:
