@@ -13,7 +13,7 @@ void main() {
     std::cout << "Loading Setup!\n";
     for (int i = 0; i < AMOUNT; i++) {
         b[i].setup();
-        w[i] = new window("Game", (i % 12) * 160, floor(i / 12) * 350 + 32, 160, 320, 60);
+        w[i] = new window("Game", (i % 9) * 160, floor(i / 9) * 320 + 32, 160, 320, 20);
         w[i]->setup(&b[i]);
     }
 
