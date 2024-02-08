@@ -103,7 +103,7 @@ void window::setup(Bot* b) {
 
     b->tetrisGame.resetGame(0);
 
-    b->texture.loadMedia(renderer, "C:/Users/Kurt/source/repos/MachineLearningTetris/MachineLearningTetris/TetrisPieces.png");
+    b->texture.loadMedia(renderer, "C:/Users/kurtk/source/repos/Tetris/MachineLearningTetris/TetrisPieces.png");
 }
 void window::clean(Bot* b) {
     SDL_DestroyRenderer(renderer);
